@@ -35,7 +35,7 @@ import { Sequelize } from 'sequelize';
 const sequelize = new Sequelize(
   process.env.DB_NAME || 'task_manager',
   process.env.DB_USER || 'task_manager_user',
-  process.env.DB_PASSWORD || 'your_password',
+  process.env.DB_PASSWORD || 'new_password',
   {
     host: process.env.DB_HOST || 'localhost',
     dialect: 'postgres',

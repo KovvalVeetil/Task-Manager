@@ -23,7 +23,7 @@ exports.sequelize = void 0;
 // });
 const sequelize_1 = require("sequelize");
 // Initialize Sequelize
-const sequelize = new sequelize_1.Sequelize('task_manager', 'task_manager_user', 'your_password', {
+const sequelize = new sequelize_1.Sequelize('task_manager', 'task_manager_user', 'new_password', {
     host: 'localhost',
     dialect: 'postgres',
 });
