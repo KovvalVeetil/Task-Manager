@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 import { Sequelize } from 'sequelize';
-import Task from "./models/Task";
+import Task from "./models/Task"
 // import { Task } from "./models/Task";
 
 dotenv.config();
