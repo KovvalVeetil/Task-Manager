@@ -14,7 +14,7 @@
 // import { Sequelize } from 'sequelize';
 
 // // Initialize Sequelize
-// const sequelize = new Sequelize('task_manager', 'task_manager_user', 'new_password', {
+// const sequelize = new Sequelize('task_manager', 'task_manager_user', 'your_password', {
 //   host: 'localhost',
 //   dialect: 'postgres',
 // });

@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 import { Sequelize } from 'sequelize';
-import { Task } from './models/Task';
+import Task from "./models/Task";
+// import { Task } from "./models/Task";
 
 dotenv.config();
 
@@ -11,7 +12,7 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST || 'localhost',
     dialect: 'postgres',
-    logging: console.log,  // Enable SQL query logging
+    logging: console.log,
   }
 );
 
