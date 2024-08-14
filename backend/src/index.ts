@@ -1,5 +1,9 @@
 import * as dotenv from 'dotenv';
-import express, { Request, Response } from 'express';
+import express = require("express")
+
+import { Request, Response } from 'express';
+
+//import express, { Request, Response } from 'express';
 import { Sequelize } from 'sequelize';
 
 // Load environment variables from .env file
