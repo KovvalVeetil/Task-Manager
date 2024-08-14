@@ -1,31 +1,4 @@
-// import express from 'express';
-
-// const app = express();
-
-// app.get('/', (req, res) => {
-//     res.send('Task Manager API');
-// });
-
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
-
-// import { Sequelize } from 'sequelize';
-
-// // Initialize Sequelize
-// const sequelize = new Sequelize('task_manager', 'task_manager_user', 'new_password', {
-//   host: 'localhost',
-//   dialect: 'postgres',
-// });
-
-// // Sync database and models
-// sequelize.sync()
-//   .then(() => console.log('Database & tables created!'))
-//   .catch((error) => console.error('Unable to connect to the database:', error));
-
-// export { sequelize };
-
+import express from 'express';
 import * as dotenv from 'dotenv';
 dotenv.config(); // Load environment variables from .env file
 
@@ -62,5 +35,103 @@ sequelize.sync()
   })
   .catch((error) => console.error('Unable to connect to the database:', error));
 
+  const app = express();
+  const port = process.env.PORT || 3000;
 
-export { sequelize };
+  app.use(express.json());
+
+  // Create Task
+  app.post('/tasks', async (req, res) => {
+    try {
+      const { title, description, isCompleted } = req.body;
+      const task = await Task.create({ title, description, isCompleted });
+      res.status(201).json(task);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        res.status(500).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'An unknown error occurred' });
+      }
+    }
+  });
+
+ // Get All Tasks
+app.get('/tasks', async (req, res) => {
+  try {
+    const tasks = await Task.findAll();
+    res.status(200).json(tasks);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'An unknown error occurred' });
+    }
+  }
+});
+
+// Get Task by ID
+app.get('/tasks/:id', async (req, res) => {
+  try {
+    const task = await Task.findByPk(req.params.id);
+    if (task) {
+      res.status(200).json(task);
+    } else {
+      res.status(404).json({ error: 'Task not found' });
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'An unknown error occurred' });
+    }
+  }
+});
+
+// Update Task
+app.put('/tasks/:id', async (req, res) => {
+  try {
+    const { title, description, isCompleted } = req.body;
+    const [updated] = await Task.update({ title, description, isCompleted }, {
+      where: { id: req.params.id },
+    });
+    if (updated) {
+      const updatedTask = await Task.findByPk(req.params.id);
+      res.status(200).json(updatedTask);
+    } else {
+      res.status(404).json({ error: 'Task not found' });
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'An unknown error occurred' });
+    }
+  }
+});
+
+// Delete Task
+app.delete('/tasks/:id', async (req, res) => {
+  try {
+    const deleted = await Task.destroy({
+      where: { id: req.params.id },
+    });
+    if (deleted) {
+      res.status(204).send();
+    } else {
+      res.status(404).json({ error: 'Task not found' });
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: 'An unknown error occurred' });
+    }
+  }
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
+export { app, sequelize };
