@@ -35,7 +35,7 @@ exports.sequelize = void 0;
 // });
 // import { Sequelize } from 'sequelize';
 // // Initialize Sequelize
-// const sequelize = new Sequelize('task_manager', 'task_manager_user', 'your_password', {
+// const sequelize = new Sequelize('task_manager', 'task_manager_user', 'new_password', {
 //   host: 'localhost',
 //   dialect: 'postgres',
 // });
@@ -48,7 +48,7 @@ const dotenv = __importStar(require("dotenv"));
 dotenv.config(); // Load environment variables from .env file
 const sequelize_1 = require("sequelize");
 // Create a Sequelize instance
-const sequelize = new sequelize_1.Sequelize(process.env.DB_NAME || 'task_manager', process.env.DB_USER || 'task_manager_user', process.env.DB_PASSWORD || 'your_password', {
+const sequelize = new sequelize_1.Sequelize(process.env.DB_NAME || 'task_manager', process.env.DB_USER || 'task_manager_user', process.env.DB_PASSWORD || 'new_password', {
     host: process.env.DB_HOST || 'localhost',
     dialect: 'postgres',
 });

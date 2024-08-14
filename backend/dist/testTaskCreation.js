@@ -40,7 +40,7 @@ const sequelize_1 = require("sequelize");
 const Task_1 = __importDefault(require("./models/Task"));
 // import { Task } from "./models/Task";
 dotenv.config();
-const sequelize = new sequelize_1.Sequelize(process.env.DB_NAME || 'task_manager', process.env.DB_USER || 'task_manager_user', process.env.DB_PASSWORD || 'your_password', {
+const sequelize = new sequelize_1.Sequelize(process.env.DB_NAME || 'task_manager', process.env.DB_USER || 'task_manager_user', process.env.DB_PASSWORD || 'new_password', {
     host: process.env.DB_HOST || 'localhost',
     dialect: 'postgres',
     logging: console.log,
