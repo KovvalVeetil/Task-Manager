@@ -1,5 +1,9 @@
 import * as dotenv from 'dotenv';
-import express, { Request, Response } from 'express';
+import express = require("express")
+
+import { Request, Response } from 'express';
+
+//import express, { Request, Response } from 'express';
 import { Sequelize } from 'sequelize';
 
 // Load environment variables from .env file
@@ -30,12 +34,20 @@ sequelize.sync()
     // CRUD Operations
 
     // Create a new task
-    app.post('/tasks', async (req: Request, res: Response) => {
+    app.post('/tasks', async (req, res) => {
       try {
         const { title, description, completed } = req.body;
+    
+        if (!title) {
+          return res.status(400).json({ error: 'Title is required' });
+        }
+    
         const task = await Task.create({ title, description, completed });
         res.status(201).json(task);
       } catch (error) {
+        if (error.name === 'SequelizeValidationError') {
+          return res.status(400).json({ error: error.errors.map(e => e.message).join(', ') });
+        }
         console.error('Error creating task:', error);
         res.status(500).json({ error: 'Internal Server Error' });
       }
