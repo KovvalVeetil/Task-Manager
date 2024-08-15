@@ -22,15 +22,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sequelize = void 0;
 const dotenv = __importStar(require("dotenv"));
@@ -56,32 +47,32 @@ sequelize.sync()
     const Task = require('./models/Task').default;
     // CRUD Operations
     // Create a new task
-    app.post('/tasks', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    app.post('/tasks', async (req, res) => {
         try {
             const { title, description, completed } = req.body;
-            const task = yield Task.create({ title, description, completed });
+            const task = await Task.create({ title, description, completed });
             res.status(201).json(task);
         }
         catch (error) {
             console.error('Error creating task:', error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
-    }));
+    });
     // Get all tasks
-    app.get('/tasks', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    app.get('/tasks', async (req, res) => {
         try {
-            const tasks = yield Task.findAll();
+            const tasks = await Task.findAll();
             res.status(200).json(tasks);
         }
         catch (error) {
             console.error('Error fetching tasks:', error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
-    }));
+    });
     // Get a single task by ID
-    app.get('/tasks/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    app.get('/tasks/:id', async (req, res) => {
         try {
-            const task = yield Task.findByPk(req.params.id);
+            const task = await Task.findByPk(req.params.id);
             if (task) {
                 res.status(200).json(task);
             }
@@ -93,17 +84,17 @@ sequelize.sync()
             console.error('Error fetching task:', error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
-    }));
+    });
     // Update a task by ID
-    app.put('/tasks/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    app.put('/tasks/:id', async (req, res) => {
         try {
-            const task = yield Task.findByPk(req.params.id);
+            const task = await Task.findByPk(req.params.id);
             if (task) {
                 const { title, description, completed } = req.body;
                 task.title = title || task.title;
                 task.description = description || task.description;
                 task.completed = completed !== undefined ? completed : task.completed;
-                yield task.save();
+                await task.save();
                 res.status(200).json(task);
             }
             else {
@@ -114,13 +105,13 @@ sequelize.sync()
             console.error('Error updating task:', error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
-    }));
+    });
     // Delete a task by ID
-    app.delete('/tasks/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    app.delete('/tasks/:id', async (req, res) => {
         try {
-            const task = yield Task.findByPk(req.params.id);
+            const task = await Task.findByPk(req.params.id);
             if (task) {
-                yield task.destroy();
+                await task.destroy();
                 res.status(204).send();
             }
             else {
@@ -131,7 +122,7 @@ sequelize.sync()
             console.error('Error deleting task:', error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
-    }));
+    });
 })
     .catch((error) => console.error('Unable to connect to the database:', error));
 // Start the server
@@ -139,3 +130,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+//# sourceMappingURL=index.js.map
